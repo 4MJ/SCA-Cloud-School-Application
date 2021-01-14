@@ -1,23 +1,19 @@
 // requiring the OS module 
 var os = require('os');
 // pakages
-// var packages = ["wget", "curl", "node"];
-var packages = ["wget"];
-
+var packages = ["wget", "curl", "node"];
 // A function that varifies and install the package
 function variousPakages(osCommand, particularPackage) {
     // checking existence of package
-    require('child_process').exec(`which ${particularPackage}`, function (err, stdout, stderr) {
-        // installing package
-        console.log("err: ", err);
-        // if (stdout === "") {
-            console.log(`Installation of ${particularPackage} : ${osCommand} ${particularPackage} ...`);
+    require('child_process').exec(`which ${particularPackage}`, function (stdout, stderr) {
+        if (stdout === "") {
+            // console.log(`Installation of ${particularPackage} : ${osCommand} ${particularPackage} ...`);
             require('child_process').exec(`${osCommand} ${particularPackage}`, function (err, stdout, stderr) {
                 console.log("Output: ", stdout);
                 console.log("err: ", err);
                 console.log("stderr: ", stderr);
             })
-        // }
+        }
     });
 }
 
@@ -46,3 +42,11 @@ if (os.type() == "Linux") {
     }
 }
 
+// console.log('platform = ', os.platform());
+// console.log('End of line marker  = ', os.EOL);
+// console.log('Memory rem= ', os.freemem());
+// console.log('directory for tem file =', os.tmpdir());
+// console.log('OS type = ', os.type());
+
+// var machineOS = os.type();
+// console.log(machineOS);
