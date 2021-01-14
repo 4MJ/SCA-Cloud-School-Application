@@ -6,15 +6,11 @@ var packages = ["wget", "curl", "node"];
 function variousPackages(osCommand, particularPackage) {
     // checking existence of package
     require('child_process').exec(`${particularPackage} --version`, function (err, stdout, stderr) {
-        console.log("output: ", stdout);
-        // console.log("err: ", err);
-        // console.log("stderr: ", stderr);
+        // console.log("output: ", stdout);
         if (stdout === "") {
             // installing package if it doesn't exist
             require('child_process').exec(`${osCommand} ${particularPackage}`, function (err, stdout, stderr) {
-                console.log("output: ", stdout);
-                console.log("err: ", err);
-                console.log("stderr: ", stderr);
+                // console.log("output: ", stdout);
             })
         }
     });
@@ -32,12 +28,25 @@ if (os.type() == "Linux") {
     // checking if OS is Windows
     if (os.type() === "Windows_NT") {
         console.log(os.type());
-        function windowsPackage(particularPackage){
+        function windowsPackage(particularPackage) {
             // checking the packages on windows
             require('child_process').exec(`${particularPackage} --version`, function (err, stdout, stderr) {
-                // console.log("err", err);
-                console.log("Output", stdout);
-                // console.log("stderr", stderr); 
+                // console.log("Output", stdout);
+                if (stdout === "") {
+                    switch (particularPackage) {
+                        case "node":
+                            console.log("Go to the site https://nodejs.org/en/download and follow the instructions");
+                            break;
+                        case "wget":
+                            console.log("Go to the site https://sourceforge.net/projects/gnuwin32/files/wget/ and follow the instructions");
+                            break;
+                        case "curl":
+                            console.log("Go to the site https://curl.haxx.se/download.html and follow the instructions. Also, go to the site https://curl.haxx.se/docs/caextract.html to download the digital certificate");
+                            break;
+                        default:
+                            break;
+                    }
+                }
             })
         }
         packages.forEach(package => {
@@ -46,7 +55,7 @@ if (os.type() == "Linux") {
     } else {
         if (os.type().startsWith("Mac")) {
             // installing homebrew
-            require('child_process').exec(`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`, function (err, stdout, stdderr) {})
+            require('child_process').exec(`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`, function (err, stdout, stdderr) { })
             // calling the package instances
             packages.forEach(package => {
                 variousPackages("sudo brew install", package);
