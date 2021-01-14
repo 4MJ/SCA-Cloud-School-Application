@@ -25,6 +25,17 @@ if (os.type() == "Linux") {
     // checking if OS is Windows
     if (os.type()==="Windows_NT") {
         console.log(os.type());
+        function windowsPackage(particularPackage){
+            // checking the packages on windows
+            require('child_process').exec(`${particularPackage} --version`, function (err, stdout, stderr) {
+                // console.log("err", err);
+                console.log("Output", stdout);
+                // console.log("stderr", stderr); 
+            })
+        }
+        packages.forEach(package => {
+            windowsPackage(package);
+        });
     } else {
         if (os.type().startsWith("Mac")) {
             // calling the package instances
