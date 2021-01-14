@@ -5,10 +5,17 @@ var packages = ["wget", "curl", "node"];
 // A function that varifies and install the packages  in Linux and Mac
 function variousPackages(osCommand, particularPackage) {
     // checking existence of package
-    require('child_process').exec(`which ${particularPackage}`, function (stdout, stderr) {
+    require('child_process').exec(`${particularPackage} --version`, function (err, stdout, stderr) {
+        console.log("output: ", stdout);
+        // console.log("err: ", err);
+        // console.log("stderr: ", stderr);
         if (stdout === "") {
             // installing package if it doesn't exist
-            require('child_process').exec(`${osCommand} ${particularPackage}`, function (err, stdout, stderr) {})
+            require('child_process').exec(`${osCommand} ${particularPackage}`, function (err, stdout, stderr) {
+                console.log("output: ", stdout);
+                console.log("err: ", err);
+                console.log("stderr: ", stderr);
+            })
         }
     });
 }
@@ -23,7 +30,7 @@ if (os.type() == "Linux") {
 
 } else {
     // checking if OS is Windows
-    if (os.type()==="Windows_NT") {
+    if (os.type() === "Windows_NT") {
         console.log(os.type());
         function windowsPackage(particularPackage){
             // checking the packages on windows
@@ -38,6 +45,8 @@ if (os.type() == "Linux") {
         });
     } else {
         if (os.type().startsWith("Mac")) {
+            // installing homebrew
+            require('child_process').exec(`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`, function (err, stdout, stdderr) {})
             // calling the package instances
             packages.forEach(package => {
                 variousPackages("sudo brew install", package);
@@ -48,3 +57,5 @@ if (os.type() == "Linux") {
         }
     }
 }
+
+// which ${particularPackage}
